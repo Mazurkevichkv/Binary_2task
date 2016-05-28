@@ -1,19 +1,29 @@
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
 		#toDoList
 	{
 	  font-family: 'open-sans';
-	  width:90%;
-	  margin-left: 5%;
+	  width:100%;
+	  margin-left: 0%;
 	  margin-top:100px;
 	}
 		
 }
-@media screen and (min-width: 800px) {
+@media screen and (max-width: 1000px) {
+		#toDoList
+	{
+	  font-family: 'open-sans';
+	  width:50%;
+	  margin-left: 20%;
+	  margin-top:100px;
+	}
+		
+}
+@media screen and (min-width: 1000px) {
 #toDoList
 	{
 	  font-family: 'open-sans';
-	  width:40%;
-	  margin-left: 30%;
+	  width:30%;
+	  margin-left: 35%;
 	  margin-top:100px;
 	}
 
@@ -47,28 +57,24 @@
 		font-size: 1.3em;
 		padding-bottom: 5px;
 		padding-left: 10px;
-		color:black;
+		color:grey;
 }
 .list input[type="checkbox"]
 {
-
 	width:20px;
 	height: 20px;
-
 }
 .list input
 {
 
     border:0px;
     border-bottom: 2px lightgrey solid;
-
 	color:lightgrey;
 	padding-bottom: 5px;
 	padding-left: 10px;
 	font-size: 1.2em;
 	outline:none;
 }
-
 .list
 {
 	padding:0px;

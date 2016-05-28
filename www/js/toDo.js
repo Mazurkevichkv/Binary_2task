@@ -1,3 +1,5 @@
+//застосуємо модульний підхід до розробки списку.
+//замість множини глобальних змінних ,створимо лише один глобальний об'єкт 
 $(document).ready(function(){
 
 	var App={};
@@ -7,7 +9,7 @@ $(document).ready(function(){
 			_$list,
 			_document,
 			id=0;
-	    
+	    //ініціалізація, створення обробників подій
 	    App.init=function(document){
 	    	_document=document;
 	    	_$container=$('#toDoList');
@@ -24,14 +26,14 @@ $(document).ready(function(){
 	    			   .on('dblclick', 'label',  event.data , $.proxy(this.changeProduct, this))
 	    			   .on('keyup','[data-action="changeProduct"]', event.data , $.proxy(this.changeLabel, this) );
 	    };
-
+        //створуємо початкове DOM дерево
 	    App.addContainer=function(_$container){
 	    	$('<input data-action="addProduct" placeholder="What do you need to buy?" class="inputField"/>').appendTo(_$container);
 	    	$('<ul class="list"></ul>').appendTo(_$container);
 	    	$('<li class="crossOutAll"><input  type="checkbox" data-action="crossOutAll"/><label>Check All</label></li>').appendTo(_$container);
 	    	$('<input  class="btn" type="button" data-action="deleteChecked" value="Delete checked"/>').appendTo(_$container);
 	    };
-
+        //додавання нового елементу списку
         App.addNewProduct=function(event){
         	var newProduct=event.target.value;
             if (event.keyCode==13 && newProduct!='')
@@ -43,7 +45,7 @@ $(document).ready(function(){
             	this.checkCountOfCrossed();  
             }
         };
-
+        //викреслювання елементу списку
         App.crossOutProduct=function(event){ 
         	var
         	    _$target = $( event.target ),
@@ -56,7 +58,7 @@ $(document).ready(function(){
             }
             this.checkCountOfCrossed();
         }
-
+        //перевірка чи викресленні усі елеменети списку. Для логічої роботи checkbox - викреслити все
         App.checkCountOfCrossed=function(){
         	var
         	    ItemsCount=$("ul").find(".cross").length,
@@ -64,7 +66,7 @@ $(document).ready(function(){
             if (ItemsCount!=CrossedCount){ $('.crossOutAll').find('input').prop("checked",false);}
             else {$('.crossOutAll').find('input').prop("checked",true);}
         }
-
+        //викреслити все
         App.crossOutAll=function(event){
         	var
         	    _$target = $( event.target ),
@@ -77,14 +79,16 @@ $(document).ready(function(){
                   _$items.parent().find("label").removeClass("cross");
             }
         };
-
+        //видалити викреслені
         App.deleteChecked=function(){
         	var _$items = $( " .cross " ).parent();
         	_$items.remove();
         	$('.crossOutAll').find('input').prop("checked",false);
         };
 
-
+        //змінити поле з продуктом
+        //поверх нашого елементу списку відображаємо поле вводу. 
+        //залежно від натиснутої кнопки, або старе поле заміниться новим, або ж водобразимо знову старий елемент списку
         App.changeProduct=function(event){
         	var _$item=$(event.target),
         	    text=_$item.text();
@@ -92,17 +96,18 @@ $(document).ready(function(){
         	    _$item.after("<input data-action='changeProduct' value="+text+">");
         	    _$item.hide();
         };
-
+     
         App.changeLabel=function(event){
             var _$item=$(event.target),
         	    _$oldItem=_$item.parent().find('label'),
         	    newProduct=event.target.value;
-        	  
+
         	if (event.keyCode==13 && newProduct!='')
             {
             	$('<label>'+newProduct+'<img src="img/delete.png"/></label>').appendTo(_$item.parent());
-            	_$item.remove();
-                _$oldItem.remove();
+                if ( _$oldItem.hasClass('cross') ){ _$item.parent().find('label').addClass('cross');}
+                 _$item.remove();
+                 _$oldItem.remove();
 
             }
             if (event.keyCode==27)
@@ -111,7 +116,7 @@ $(document).ready(function(){
             	 _$item.remove();	
             }
         }; 
-
+        //початкова ініціалізація
         App.init();
 
 	})(App, jQuery);
